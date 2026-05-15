@@ -183,7 +183,7 @@ export const forgotPassword = async (req, res) => {
     user.resetPasswordExpires = resetPasswordExpire;
     await user.save();
 
-    const clientUrl = "http://localhost:5173";
+    const clientUrl = process.env.FRONTEND_URL || "http://localhost:5173";
     const resetUrl = `${clientUrl}/reset-password/${resetToken}`;
     const message = `
             <h2>Password Reset Request</h2>
