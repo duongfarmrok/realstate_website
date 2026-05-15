@@ -165,7 +165,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("sendMessage", (data) => {
-    io.to(data.chatId).emit("newMessage", data);
+    // Broadcast cho tất cả trong room NGOẠI TRỪ người gửi (tránh duplicate)
+    socket.broadcast.to(data.chatId).emit("newMessage", data);
   });
 
   socket.on("disconnect", () => {

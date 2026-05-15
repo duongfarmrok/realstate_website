@@ -141,7 +141,7 @@ export const verifyEmail = async (req, res) => {
     console.log("Type của token DB:", typeof user.verificationToken);
     console.log("Code người dùng gửi:", code);
     console.log("Type của code:", typeof code);
-    if (String(user.verificationToken).trim()  !== code) {
+    if (String(user.verificationToken).trim() !== code) {
       return res.status(400).json({ message: "Mã xác minh không đúng" });
     }
 
