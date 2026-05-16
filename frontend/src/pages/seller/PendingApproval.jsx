@@ -6,19 +6,26 @@ import {
   HiOutlineRefresh,
   HiOutlineSupport,
 } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const PendingApproval = () => {
   const { logout, user, refreshUser } = useAuth();
+  const navigate = useNavigate();
   const [refreshing, setRefreshing] = useState(false);
 
-  //auto refresh
+  //auto redirect khi approved hoặc auto refresh every 10s
   useEffect(() => {
+    // Nếu user đã được duyệt, redirect tới dashboard
+    if (user?.isApproved) {
+      navigate("/seller-dashboard", { replace: true });
+      return;
+    }
+
     const interval = setInterval(() => {
       refreshUser();
     }, 10000);
     return () => clearInterval(interval);
-  }, [refreshUser]);
+  }, [user?.isApproved, refreshUser, navigate]);
 
   //handle manual refresh
   const handleManualRefresh = async () => {

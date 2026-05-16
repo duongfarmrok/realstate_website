@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -111,7 +113,7 @@ export const getMe = async (req, res) => {
       return res.status(404).json({ message: "Người dùng không tồn tại" });
     }
     res.json({
-      suscess: true,
+      success: true,
       user,
     });
   } catch (error) {
