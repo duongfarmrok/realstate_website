@@ -39,26 +39,38 @@ const AdminDashboard = () => {
     soldProperties: 0,
   });
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const { token } = useAuth();
+
   //to fetch dashboard data
+  const fetchDashboardData = async () => {
+    try {
+      const res = await axios.get(`${API_URL}api/admin/stats`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.data.success) {
+        setStats(res.data.stats);
+      }
+      setLoading(false);
+      setRefreshing(false);
+    } catch (error) {
+      console.error("Tải thất bại!", error);
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
+
   useEffect(() => {
     console.log("Dashboard quản trị đã được tải!");
-    const fetchDashboardData = async () => {
-      try {
-        const res = await axios.get(`${API_URL}api/admin/stats`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (res.data.success) {
-          setStats(res.data.stats);
-        }
-        setLoading(false);
-      } catch (error) {
-        console.error("Tải thất bại!", error);
-        setLoading(false);
-      }
-    };
+    console.log("API_URL:", API_URL);
     fetchDashboardData();
-  }, []);
+  }, [token]);
+
+  // Handle manual refresh
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchDashboardData();
+  };
 
   if (loading) {
     return (
@@ -109,13 +121,11 @@ const AdminDashboard = () => {
           </p>
         </div>
         <button
-          onClick={() => {
-            setLoading(true);
-            window.location.reload();
-          }}
+          onClick={handleRefresh}
+          disabled={refreshing}
           className={s.refreshButton}
         >
-          Cập nhật lại
+          {refreshing ? "Đang cập nhật..." : "Cập nhật lại"}
         </button>
       </div>
 
