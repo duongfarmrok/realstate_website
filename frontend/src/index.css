@@ -70,7 +70,7 @@
   }
 
   .btn-primary {
-    @apply bg-primary text-white hover:bg-primary-dark hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/30;
+    @apply bg-[#0d9488] text-white hover:bg-[#0f766e] hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[rgba(13,148,136,0.3)];
   }
 
   .btn-outline {
@@ -130,16 +130,16 @@
   }
 
   .loader {
-    @apply w-12 h-12 border-[5px] border-primary-light border-b-primary rounded-full inline-block box-border animate-[rotation_1s_linear_infinite];
+    @apply w-12 h-12 border-[5px] border-[#ccfbf1] border-b-[#0d9488] rounded-full inline-block box-border animate-[rotation_1s_linear_infinite];
   }
 
   /* Sidebar Navigation */
   .sidebar-link {
-    @apply flex items-center gap-4 px-6 py-4 rounded-xl font-semibold text-[15px] text-[#64748b] transition-all duration-200 hover:bg-[#f1f5f9] hover:text-primary hover:translate-x-1;
+    @apply flex items-center gap-4 px-6 py-4 rounded-xl font-semibold text-[15px] text-[#64748b] transition-all duration-200 hover:bg-[#f1f5f9] hover:text-[#0d9488] hover:translate-x-1;
   }
 
   .sidebar-link.active {
-    @apply bg-primary-light text-primary;
+    @apply bg-[#ccfbf1] text-[#0d9488];
   }
 }
 
