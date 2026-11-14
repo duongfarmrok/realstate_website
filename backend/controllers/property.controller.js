@@ -96,9 +96,10 @@ export const addProperty = async (req, res) => {
 //to get my properties
 export const getMyProperties = async (req, res) => {
   try {
+    // Tin mới nhất lên đầu để người bán thấy ngay tin vừa đăng
     const properties = await Property.find({
       seller: req.user._id,
-    });
+    }).sort({ createdAt: -1, _id: -1 });
     res.status(200).json({
       message: "Lấy danh sách bất động sản thành công",
       properties,

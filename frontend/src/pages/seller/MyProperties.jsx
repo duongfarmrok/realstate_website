@@ -20,6 +20,10 @@ import PropertyCard from "../../components/common/PropertyCard";
 import Select from "../../components/common/Select";
 import Pagination from "../../components/common/Pagination";
 import useNotificationEvent from "../../hooks/useNotificationEvent";
+import { getModerationStatus } from "../../utils/propertyLabels";
+
+// Bộ lọc "trạng thái" gộp trạng thái bán (sale/sold) và trạng thái kiểm duyệt (pending/rejected)
+const MODERATION_FILTERS = ["pending", "rejected"];
 
 // Bỏ dấu tiếng Việt để "cau giay" vẫn khớp "Cầu Giấy"
 const normalize = (str = "") =>
@@ -85,8 +89,11 @@ const MyProperties = () => {
     const q = normalize(keyword);
     return properties.filter((p) => {
       if (cityFilter !== "all" && p.city?.trim() !== cityFilter) return false;
-      if (statusFilter !== "all" && (p.status || "sale") !== statusFilter)
+      if (MODERATION_FILTERS.includes(statusFilter)) {
+        if (getModerationStatus(p) !== statusFilter) return false;
+      } else if (statusFilter !== "all" && (p.status || "sale") !== statusFilter) {
         return false;
+      }
       if (!q) return true;
       return [p.area, p.city, p.address, p.title].some((field) =>
         normalize(field).includes(q),
@@ -431,6 +438,8 @@ const MyProperties = () => {
                   { value: "all", label: "Tất cả trạng thái" },
                   { value: "sale", label: "Còn bán" },
                   { value: "sold", label: "Đã bán" },
+                  { value: "pending", label: "Chờ duyệt" },
+                  { value: "rejected", label: "Bị từ chối" },
                 ]}
               />
             </div>
